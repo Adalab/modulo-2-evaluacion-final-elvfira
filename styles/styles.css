@@ -1,0 +1,31 @@
+* {
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  margin-left: 20px;
+  padding: 0;
+}
+
+.main-title {
+  margin-left: 20px;
+  color: deepskyblue;
+}
+
+.button-div {
+  text-align: center;
+}
+
+.search-button {
+  background-color: deepskyblue;
+  color: white;
+  border-radius: 5px;
+}
+
+.reset-button {
+  background-color: deepskyblue;
+  color: white;
+  border-radius: 5px;
+}
+
+.container-series {
+    display: flex;
+}
