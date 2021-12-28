@@ -7,8 +7,17 @@ const resetButton = document.querySelector("js_resetChapter");
 const favoriteSeries = document.querySelector("js_favoriteSeries");
 const resultsSeries = document.querySelector("js_seriesResults");
 
+//Defino variables
+let searchedSerie = '';
+
 //Defino la función de búsqueda
 function searchNaruto () {
+//Cojo el valor del input Search
+searchedSerie = inputSearch.value;
+
+//Ejecuto la API
+
+//Pinto los resultados de la API
 
 };
 
