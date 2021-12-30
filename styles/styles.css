@@ -5,27 +5,39 @@
   padding: 0;
 }
 
+.input {
+  height: 25px;
+  width: 200px;
+  margin: auto;
+  text-align: center;
+  border: solid 1px deepskyblue;
+}
+
 .main-title {
   margin-left: 20px;
   color: deepskyblue;
 }
 
-.button-div {
-  text-align: center;
-}
-
-.search-button {
+.button {
   background-color: deepskyblue;
   color: white;
   border-radius: 5px;
-}
-
-.reset-button {
-  background-color: deepskyblue;
-  color: white;
-  border-radius: 5px;
+  border: none;
+  width: 100px;
+  height: 30px;
+  font-weight: bold;
+  margin: auto;
+  margin-top: 10px;
 }
 
 .container-series {
-    display: flex;
+  display: flex;
+}
+
+.favorite {
+ color: rgb(255, 0, 128);
+}
+
+.results {
+  color: rgb(255, 0, 128);
 }
