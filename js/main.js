@@ -1,43 +1,36 @@
 "use strict";
 
-//Defino constantes para los elementos
-const inputSearch = document.querySelector(".js_narutoChapter");
+//Defino constantes para los elementos HTML
+const inputSearch = document.querySelector(".js_animeChapter");
 const searchButton = document.querySelector(".js_searchButton");
 const resetButton = document.querySelector(".js_resetChapter");
 const favoriteSeries = document.querySelector(".js_favoriteSeries");
 const resultsSeries = document.querySelector(".js_seriesResults");
 
 //Defino variables
-let searchedSerie = '';
+let searchedSerie = "";
 let apiResults = [];
-let contentResults = '';
+let contentResults = "";
 
 //Defino la función de búsqueda
-function searchNaruto () {
-//evitamos que se recargue la página
-event.preventDefault();
+function searchAnime(event) {
+  //evitamos que se recargue la página
+  event.preventDefault();
+  resultsSeries.innerHTML = "";
+  fetch(`https://api.jikan.moe/v3/search/anime?q=${inputSearch.value}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const apiResults = data.results;
+      console.log(apiResults);
 
-//Cojo el valor del input Search
-searchedSerie = inputSearch.value;
+      for (let i = 0; i <= apiResults.length; i++) {
+        let animeResults = apiResults[i];
+        resultsSeries.innerHTML += `<li>${animeResults.title}</li><img src="${animeResults.image_url}"/>`;
+      }
+    });
+}
 
-//Ejecuto la API
-fetch('https://api.jikan.moe/v3/search/anime?q=naruto')
-  .then((response) => response.json())
-  .then((data) => {
-    apiResults = data.results;
-    //Pinto los resultados de la API
-    //Hago un bucle que recorra todo el array y pinte sus 50 elementos
-    
-    //Desde el capítulo 0 hasta el 49 ve añadiendo li's con cada captulo
 
-    contentResults = `<li>${apiResults[0].title}</li>`;
-
-    //Pinto el resultado del bucle
-    resultsSeries.innerHTML = contentResults;
-
-  });
-  
-};
 
 //Llamo a las funciones al clickar en los botones
-searchButton.addEventListener('click', searchNaruto);
+searchButton.addEventListener("click", searchAnime);
