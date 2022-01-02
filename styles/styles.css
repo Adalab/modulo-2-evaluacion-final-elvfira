@@ -39,9 +39,17 @@
 }
 
 .results {
-  color: rgb(255, 0, 128);
+  color: springgreen;
 }
 
 .ul {
   list-style: none;
+}
+
+.js_favoriteSeries li {
+  border: 5px solid  rgb(255, 0, 128); 
+}
+
+.selectedItem {
+border: 5px solid springgreen;
 }
