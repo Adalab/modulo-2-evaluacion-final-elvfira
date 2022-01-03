@@ -9,20 +9,23 @@ const resultsSeries = document.querySelector(".js_seriesResults");
 
 //Constante para las series que no tienen imagen
 const urlNoImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV";
-const imageNotFound = 'https://cdn.myanimelist.net/images/qm_50.gif?s=e1ff92a46db617cb83bfc1e205aff620';
+const imageNotFound =
+  "https://cdn.myanimelist.net/images/qm_50.gif?s=e1ff92a46db617cb83bfc1e205aff620";
 
 //Defino variables
 let searchedSerie = "";
 let contentResults = "";
-let animeResults = {};
+let animeResult = {};
 let pasteFavorite = "";
 
-//Defino la función de elegir series favoritas
+//Defino la función de elegir series favoritas, la función myFavorites escucha el click sobre un elemento de los resultados y si existe en favoritos lo elimina, si no existe en favoritos lo añade.
 function myFavorites(event) {
   const selectFavorite = event.currentTarget;
-  // si el elemento selectFavorite contiene la clase selectedItem (comprobar si la contiene) haz algo...
+  // console.log(event.currentTarget)
+
+  //Si el elemento sí contiene la clase que pone el cuadrito verde haz que se quite.
+  //Quita el elemento de favoritos de la izquierda
   if (selectFavorite.matches(".selectedItem")) {
-    // borra el elemento con la id correspondiente en el ul favoriteSeries
     let chapterId = selectFavorite.getAttribute("id");
     console.log(chapterId);
     const elementToDelete = document.querySelector(
@@ -30,33 +33,33 @@ function myFavorites(event) {
     );
     console.log(elementToDelete);
     elementToDelete.remove();
+    //Si el elemento no contiene la clase que pone el cuadrito verde haz que se añada.
   } else {
     pasteFavorite = selectFavorite.cloneNode(true);
     favoriteSeries.appendChild(pasteFavorite);
   }
-  // favoriteSeries.innerHTML += selectFavorite;
-  // no funciona así que uso DOM
+  //Una vez he ejecutado la creación/eliminación del elemento, cambio el color del elemento clickado con toggle.
   selectFavorite.classList.toggle("selectedItem");
 }
 
-//Defino la función de búsqueda
+//Defino la función de búsqueda, cojo el string de la búsqueda y llamo a la API para que me muestre los resultados.
 function searchAnime(event) {
   //evitamos que se recargue la página
   event.preventDefault();
-  resultsSeries.innerHTML = "";
+  resultsSeries.innerHTML = ""; //Cojo los resultados anteriores y los borro
   fetch(`https://api.jikan.moe/v3/search/anime?q=${inputSearch.value}`)
     .then((response) => response.json())
     .then((data) => {
       const apiResults = data.results;
       console.log(apiResults.length);
 
-      for (let i = 0; i <= apiResults.length - 1; i++) {
-        animeResults = apiResults[i];
+      for (let i = 0; i < apiResults.length; i++) {
+        animeResult = apiResults[i];
 
         //Sustituir imagen cuando la serie no tiene
         let imageAddress = "";
-        if (animeResults.image_url != imageNotFound) {
-          imageAddress = animeResults.image_url;
+        if (animeResult.image_url != imageNotFound) {
+          imageAddress = animeResult.image_url;
         } else {
           imageAddress = urlNoImage;
         }
@@ -68,7 +71,7 @@ function searchAnime(event) {
         // } else {
         // }
 
-        resultsSeries.innerHTML += `<li class="js_itemResult ${markFavorite}" id="chapter-${animeResults.mal_id}"><p>${animeResults.title}</p><img src="${imageAddress}"/></li>`;
+        resultsSeries.innerHTML += `<li class="js_itemResult ${markFavorite}" id="chapter-${animeResult.mal_id}"><p>${animeResult.title}</p><img src="${imageAddress}"/></li>`;
       }
 
       const allResults = document.querySelectorAll(".js_itemResult");

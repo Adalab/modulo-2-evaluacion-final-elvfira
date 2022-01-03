@@ -5,21 +5,36 @@
   padding: 0;
 }
 
+.header {
+  border-radius: 10px;
+  width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .input {
   height: 25px;
   width: 200px;
   margin: auto;
   text-align: center;
-  border: solid 1px deepskyblue;
+  border: solid 1px rgb(197, 117, 236);
+}
+.image {
+  width: 85px;
+  margin-top: 10px;
+  border-radius: 20px;
 }
 
 .main-title {
-  margin-left: 20px;
-  color: deepskyblue;
+  color: plum;
+  text-align: center;
+  font-size: 28px;
 }
 
 .button {
-  background-color: deepskyblue;
+  background-color: rgb(197, 117, 236);
   color: white;
   border-radius: 5px;
   border: none;
@@ -35,11 +50,11 @@
 }
 
 .favorite {
- color: rgb(255, 0, 128);
+  color: violet;
 }
 
 .results {
-  color: springgreen;
+  color: skyblue;
 }
 
 .ul {
@@ -47,9 +62,13 @@
 }
 
 .js_favoriteSeries li {
-  border: 5px solid  rgb(255, 0, 128); 
+  border: 5px solid rgb(197, 117, 236);
 }
 
 .selectedItem {
-border: 5px solid springgreen;
+  border: 5px solid skyblue;
+}
+
+li {
+  color: plum;
 }
