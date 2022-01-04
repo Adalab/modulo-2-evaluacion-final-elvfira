@@ -72,7 +72,7 @@ function myFavorites(event) {
     console.log(myFavoriteChapter);
     const index = arrayFavorites.indexOf(myFavoriteChapter);
     console.log(index);
-    arrayFavorites.splice(index,1);
+    arrayFavorites.splice(index, 1);
     paintFavorites();
     //Si el elemento no contiene la clase que pone el cuadrito verde haz que se añada.
   } else {
@@ -82,8 +82,13 @@ function myFavorites(event) {
     arrayFavorites.push(myFavoriteChapter);
     paintFavorites();
   }
+localStorageFavorite() 
   //Una vez he ejecutado la creación/eliminación del elemento, cambio el color del elemento clickado con toggle.
   selectFavorite.classList.toggle("selectedItem");
+}
+//Hago función para LocalStorage.
+function localStorageFavorite() {
+  localStorage.setItem("favorites", JSON.stringify (arrayFavorites));
 }
 
 //Defino la función de búsqueda, cojo el string de la búsqueda y llamo a la API para que me muestre los resultados.
