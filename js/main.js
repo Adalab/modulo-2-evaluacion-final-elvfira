@@ -17,26 +17,70 @@ let searchedSerie = "";
 let contentResults = "";
 let animeResult = {};
 let pasteFavorite = "";
+let apiResults = [];
+let imageAddress = "";
+let markFavorite = "";
+
+// Defino el array para seleccionar favoritos
+let arrayFavorites = [];
+
+//Defino la función que marca como favoritos los resultados de búsqueda
+function markGreen() {
+  //comprobar si este capítulo está en favoritos y ponerlo en verde (con un if)
+  markFavorite = "";
+  const chapterFound = arrayFavorites.findIndex(
+    (arrayFavorite) => arrayFavorite.mal_id === animeResult.mal_id
+  );
+  //si el capítulo existe (chapterFound!=-1) píntalo verde
+  if (chapterFound != -1) {
+    markFavorite = "selectedItem";
+  } else {
+  }
+}
+
+//Defino la función que sustituye la imagen cuando la serie no tiene
+function substituteImage() {
+  imageAddress = "";
+  if (animeResult.image_url != imageNotFound) {
+    imageAddress = animeResult.image_url;
+  } else {
+    imageAddress = urlNoImage;
+  }
+}
+
+//Defino la función que pinta el array de favoritos
+function paintFavorites() {
+  favoriteSeries.innerHTML = "";
+  console.log(arrayFavorites.length);
+  for (let i = 0; i < arrayFavorites.length; i++) {
+    let favoriteItem = arrayFavorites[i];
+    favoriteSeries.innerHTML += `<li class="js_itemResult" id="${favoriteItem.mal_id}"><p>${favoriteItem.title}</p><img src="${favoriteItem.image_url}"/></li>`;
+  }
+}
 
 //Defino la función de elegir series favoritas, la función myFavorites escucha el click sobre un elemento de los resultados y si existe en favoritos lo elimina, si no existe en favoritos lo añade.
 function myFavorites(event) {
   const selectFavorite = event.currentTarget;
-  // console.log(event.currentTarget)
+  const selectFavoriteId = parseInt(event.currentTarget.dataset.id);
 
   //Si el elemento sí contiene la clase que pone el cuadrito verde haz que se quite.
   //Quita el elemento de favoritos de la izquierda
   if (selectFavorite.matches(".selectedItem")) {
-    let chapterId = selectFavorite.getAttribute("id");
-    console.log(chapterId);
-    const elementToDelete = document.querySelector(
-      "ul.js_favoriteSeries #" + chapterId
+    const myFavoriteChapter = arrayFavorites.find(
+      (arrayFavorite) => arrayFavorite.mal_id === selectFavoriteId
     );
-    console.log(elementToDelete);
-    elementToDelete.remove();
+    console.log(myFavoriteChapter);
+    const index = arrayFavorites.indexOf(myFavoriteChapter);
+    console.log(index);
+    arrayFavorites.splice(index,1);
+    paintFavorites();
     //Si el elemento no contiene la clase que pone el cuadrito verde haz que se añada.
   } else {
-    pasteFavorite = selectFavorite.cloneNode(true);
-    favoriteSeries.appendChild(pasteFavorite);
+    const myFavoriteChapter = apiResults.find(
+      (apiResult) => apiResult.mal_id === selectFavoriteId
+    );
+    arrayFavorites.push(myFavoriteChapter);
+    paintFavorites();
   }
   //Una vez he ejecutado la creación/eliminación del elemento, cambio el color del elemento clickado con toggle.
   selectFavorite.classList.toggle("selectedItem");
@@ -50,32 +94,15 @@ function searchAnime(event) {
   fetch(`https://api.jikan.moe/v3/search/anime?q=${inputSearch.value}`)
     .then((response) => response.json())
     .then((data) => {
-      const apiResults = data.results;
+      apiResults = data.results;
       console.log(apiResults.length);
-
       for (let i = 0; i < apiResults.length; i++) {
         animeResult = apiResults[i];
-
-        //Sustituir imagen cuando la serie no tiene
-        let imageAddress = "";
-        if (animeResult.image_url != imageNotFound) {
-          imageAddress = animeResult.image_url;
-        } else {
-          imageAddress = urlNoImage;
-        }
-
-        //comprobar si este capítulo está en favoritos y ponerlo en verde (con un if)
-        let markFavorite = "";
-        // if (¿existe?) {
-        //   markFavorite = "selectedItem";
-        // } else {
-        // }
-
-        resultsSeries.innerHTML += `<li class="js_itemResult ${markFavorite}" id="chapter-${animeResult.mal_id}"><p>${animeResult.title}</p><img src="${imageAddress}"/></li>`;
+        substituteImage();
+        markGreen();
+        resultsSeries.innerHTML += `<li class="js_itemResult ${markFavorite}" data-id="${animeResult.mal_id}"><p>${animeResult.title}</p><img src="${imageAddress}"/></li>`;
       }
-
       const allResults = document.querySelectorAll(".js_itemResult");
-
       for (const eachItem of allResults) {
         eachItem.addEventListener("click", myFavorites);
       }
