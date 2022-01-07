@@ -6,6 +6,7 @@ const searchButton = document.querySelector(".js_searchButton");
 const resetButton = document.querySelector(".js_resetChapter");
 const favoriteSeries = document.querySelector(".js_favoriteSeries");
 const resultsSeries = document.querySelector(".js_seriesResults");
+const paintTitle = document.querySelector(".js_logTitle");
 
 //Constante para las series que no tienen imagen
 const urlNoImage = "https://via.placeholder.com/210x295/ffffff/666666/?text=TV";
@@ -82,15 +83,22 @@ function myFavorites(event) {
     arrayFavorites.push(myFavoriteChapter);
     paintFavorites();
   }
-localStorageFavorite() 
+  localStorageFavorite();
   //Una vez he ejecutado la creación/eliminación del elemento, cambio el color del elemento clickado con toggle.
   selectFavorite.classList.toggle("selectedItem");
 }
 //Hago función para LocalStorage.
 function localStorageFavorite() {
-  localStorage.setItem("favorites", JSON.stringify (arrayFavorites));
+  localStorage.setItem("favorites", JSON.stringify(arrayFavorites));
 }
-
+//Defino la función del botón log para consolear los títulos de favoritos.
+function consoleTitle(event) {
+  event.preventDefault();
+  for (let i = 0; i < arrayFavorites.length; i++) {
+    animeResult = arrayFavorites[i];
+  console.log(animeResult.title);
+}
+}
 //Defino la función de búsqueda, cojo el string de la búsqueda y llamo a la API para que me muestre los resultados.
 function searchAnime(event) {
   //evitamos que se recargue la página
@@ -105,7 +113,7 @@ function searchAnime(event) {
         animeResult = apiResults[i];
         substituteImage();
         markGreen();
-        resultsSeries.innerHTML += `<li class="js_itemResult ${markFavorite}" data-id="${animeResult.mal_id}"><p>${animeResult.title}</p><img src="${imageAddress}"/></li>`;
+        resultsSeries.innerHTML += `<li class="js_itemResult ${markFavorite}" data-id="${animeResult.mal_id}"><p>${animeResult.title}</p><p>${animeResult.episodes}</p><img src="${imageAddress}"/></li>`;
       }
       const allResults = document.querySelectorAll(".js_itemResult");
       for (const eachItem of allResults) {
@@ -113,6 +121,7 @@ function searchAnime(event) {
       }
     });
 }
-
+// Llamo a la funcion para clicar en el botón log para que pinte el título en consola
+paintTitle.addEventListener("click", consoleTitle);
 //Llamo a las funciones al clickar en los botones
 searchButton.addEventListener("click", searchAnime);
